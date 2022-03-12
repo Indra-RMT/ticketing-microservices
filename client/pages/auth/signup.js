@@ -4,6 +4,7 @@ import axios from "axios";
 const Signup = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [errors, setErrors] = useState([]);
 
   const handleSubmitForm = async (e) => {
     e.preventDefault();
@@ -15,7 +16,7 @@ const Signup = () => {
       });
       console.log("response", response);
     } catch (err) {
-      console.log("err", err);
+      setErrors(err.response.data.errors);
     }
   };
 
@@ -39,6 +40,16 @@ const Signup = () => {
           onChange={(e) => setPassword(e.target.value)}
         />
       </div>
+      {errors.length > 0 && (
+        <div className="alert alert-danger">
+          <h4>Ooops...</h4>
+          <ul>
+            {errors.map((err) => (
+              <li key={err.message}>{err.message}</li>
+            ))}
+          </ul>
+        </div>
+      )}
       <button className="btn btn-primary">Sign Up</button>
     </form>
   );
