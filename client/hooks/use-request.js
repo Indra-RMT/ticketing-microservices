@@ -1,11 +1,12 @@
-import axios from "axios";
 import { useState } from "react";
+import axios from "axios";
 
-const useRequest = ({ url, body, email }) => {
+const useRequest = ({ url, method, body }) => {
   const [errors, setErrors] = useState(null);
 
   const doRequest = async () => {
     try {
+      setErrors(null);
       const response = await axios[method](url, body);
       return response.data;
     } catch (err) {
@@ -25,4 +26,4 @@ const useRequest = ({ url, body, email }) => {
   return { doRequest, errors };
 };
 
-export default userRequest;
+export default useRequest;
