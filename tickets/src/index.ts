@@ -9,12 +9,21 @@ const start = async () => {
   if (!process.env.MONGO_URI) {
     throw new Error('Missing MONGO_URI environment variable');
   }
+  if (!process.env.NATS_CLIENT_ID) {
+    throw new Error('Missing NATS_CLIENT_ID environment variable');
+  }
+  if (!process.env.NATS_URL) {
+    throw new Error('Missing NATS_URL environment variable');
+  }
+  if (!process.env.NATS_CLUSTER_ID) {
+    throw new Error('Missing NATS_CLUSTER_ID environment variable');
+  }
 
   try {
     await natsWrapper.connect(
-      'ticketing',
-      'id-randomstring',
-      'http://nats-srv:4222'
+      process.env.NATS_CLUSTER_ID,
+      process.env.NATS_CLIENT_ID,
+      process.env.NATS_URL
     );
     natsWrapper.client.on('close', () => {
       console.log('NATS connection closed!');
